@@ -8,12 +8,12 @@ services:
     ports:
       - "90:80"
     volumes:
-      - '/var/www/html/peis1.1Online:/var/www/html/:rw'
-      - './web/php/php.ini:/usr/local/etc/php/php.ini:ro'
-      - './web/apache/log:/var/log/apache2:rw'
-      - './web/apache/apache2.conf:/etc/apache2/apache2.conf'
-      - './web/apache/mods-enabled/rewrite.load:/etc/apache2/mods-enabled/rewrite.load'
-      - './web/supervisor/laravel-queue.conf:/etc/supervisor/conf.d/laravel-queue.conf'
+      - '$PWD/web/www:/var/www/html/:rw'
+      - '$PWD/web/php/php.ini:/usr/local/etc/php/php.ini:ro'
+      - '$PWD/web/apache/log:/var/log/apache2:rw'
+      - '$PWD/web/apache/apache2.conf:/etc/apache2/apache2.conf'
+      - '$PWD/web/apache/mods-enabled/rewrite.load:/etc/apache2/mods-enabled/rewrite.load'
+      - '$PWD/web/supervisor/laravel-queue.conf:/etc/supervisor/conf.d/laravel-queue.conf'
     command:
       - bash
       - -c
@@ -36,7 +36,7 @@ services:
       MYSQL_USER: peis_online
       MYSQL_PASSWORD: 'Peis1.1Online3378'
     volumes:
-      - './db/data:/var/lib/mysql:rw'
-      - './db/log:/var/log/mysql:rw'
-      - './db/conf/my.cnf:/etc/mysql/conf.d/docker.cnf:ro'
-      - './db/conf/mysqldump.cnf:/etc/mysql/conf.d/mysqldump.cnf:ro'
+      - '$PWD/db/data:/var/lib/mysql:rw'
+      - '$PWD/db/log:/var/log/mysql:rw'
+      - '$PWD/db/conf/my.cnf:/etc/mysql/conf.d/docker.cnf:ro'
+      - '$PWD/db/conf/mysqldump.cnf:/etc/mysql/conf.d/mysqldump.cnf:ro'
