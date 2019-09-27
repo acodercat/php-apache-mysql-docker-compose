@@ -1,0 +1,42 @@
+version: "2"
+services:
+  web:
+    restart: always
+    build: './web'
+    environment:
+      APACHE_DOCUMENT_ROOT: '/var/www/html/public'
+    ports:
+      - "90:80"
+    volumes:
+      - '/var/www/html/peis1.1Online:/var/www/html/:rw'
+      - './web/php/php.ini:/usr/local/etc/php/php.ini:ro'
+      - './web/apache/log:/var/log/apache2:rw'
+      - './web/apache/apache2.conf:/etc/apache2/apache2.conf'
+      - './web/apache/mods-enabled/rewrite.load:/etc/apache2/mods-enabled/rewrite.load'
+      - './web/supervisor/laravel-queue.conf:/etc/supervisor/conf.d/laravel-queue.conf'
+    command:
+      - bash
+      - -c
+      - |
+        service supervisor start
+        ls
+        apache2-foreground
+    links:
+      - "db"
+    depends_on:
+      - db
+  db:
+    image: mysql:8.0.12
+    ports:
+      - "3311:3306"
+    restart: always
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: 'true'
+      MYSQL_DATABASE: peis_online
+      MYSQL_USER: peis_online
+      MYSQL_PASSWORD: 'Peis1.1Online3378'
+    volumes:
+      - './db/data:/var/lib/mysql:rw'
+      - './db/log:/var/log/mysql:rw'
+      - './db/conf/my.cnf:/etc/mysql/conf.d/docker.cnf:ro'
+      - './db/conf/mysqldump.cnf:/etc/mysql/conf.d/mysqldump.cnf:ro'
